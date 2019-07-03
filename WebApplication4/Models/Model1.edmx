@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище MainDbModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Acts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="30" />
+          <Property Name="Description" Type="nchar" MaxLength="100" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="Importance" Type="int" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="SphereId" Type="int" />
+          <Property Name="Tag1" Type="nchar" MaxLength="10" />
+          <Property Name="Tag2" Type="nchar" MaxLength="10" />
+          <Property Name="Tag3" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Goal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="128" />
+          <Property Name="UserId" Type="nchar" MaxLength="128" />
+          <Property Name="Volume" Type="int" />
+          <Property Name="Color" Type="nchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="GoalActs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ActId" Type="int" Nullable="false" />
+          <Property Name="GoalId" Type="int" />
+          <Property Name="Name" Type="nchar" MaxLength="128" />
+          <Property Name="Color" Type="nchar" MaxLength="128" />
+          <Property Name="Imp" Type="int" />
+          <Property Name="Done" Type="int" />
+        </EntityType>
+        <EntityType Name="Sphere">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="20" />
+          <Property Name="Color" Type="nchar" MaxLength="20" />
+          <Property Name="UserId" Type="nchar" MaxLength="128" />
+          <Property Name="CountAct" Type="int" />
+          <Property Name="Archiv" Type="int" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityContainer Name="Хранилище MainDbModelContainer">
+          <EntitySet Name="Acts" EntityType="Self.Acts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Goal" EntityType="Self.Goal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GoalActs" EntityType="Self.GoalActs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sphere" EntityType="Self.Sphere" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MainDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Act">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Importance" Type="Int32" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="SphereId" Type="Int32" />
+          <Property Name="Tag1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Tag2" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Tag3" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Sphere">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Color" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="true" Unicode="true" />
+          <Property Name="CountAct" Type="Int32" />
+          <Property Name="Archiv" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="MainDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Acts" EntityType="Self.Act" />
+          <EntitySet Name="Spheres" EntityType="Self.Sphere" />
+          <EntitySet Name="Goals" EntityType="MainDbModel.Goal" />
+          <EntitySet Name="GoalAct1" EntityType="MainDbModel.GoalAct1" />
+        </EntityContainer>
+        <EntityType Name="Goal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="true" Unicode="true" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="true" Unicode="true" />
+          <Property Name="Volume" Type="Int32" />
+          <Property Name="Color" Type="String" MaxLength="128" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="GoalAct1">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ActId" Type="Int32" Nullable="false" />
+          <Property Name="GoalId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="true" Unicode="true" />
+          <Property Name="Color" Type="String" MaxLength="128" FixedLength="true" Unicode="true" />
+          <Property Name="Imp" Type="Int32" />
+          <Property Name="Done" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище MainDbModelContainer" CdmEntityContainer="MainDbEntities">
+          <EntitySetMapping Name="Acts">
+            <EntityTypeMapping TypeName="MainDbModel.Act">
+              <MappingFragment StoreEntitySet="Acts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Importance" ColumnName="Importance" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SphereId" ColumnName="SphereId" />
+                <ScalarProperty Name="Tag1" ColumnName="Tag1" />
+                <ScalarProperty Name="Tag2" ColumnName="Tag2" />
+                <ScalarProperty Name="Tag3" ColumnName="Tag3" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Spheres">
+            <EntityTypeMapping TypeName="MainDbModel.Sphere">
+              <MappingFragment StoreEntitySet="Sphere">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Archiv" ColumnName="Archiv" />
+                <ScalarProperty Name="CountAct" ColumnName="CountAct" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Goals">
+            <EntityTypeMapping TypeName="MainDbModel.Goal">
+              <MappingFragment StoreEntitySet="Goal">
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GoalAct1">
+            <EntityTypeMapping TypeName="MainDbModel.GoalAct1">
+              <MappingFragment StoreEntitySet="GoalActs">
+                <ScalarProperty Name="Done" ColumnName="Done" />
+                <ScalarProperty Name="Imp" ColumnName="Imp" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GoalId" ColumnName="GoalId" />
+                <ScalarProperty Name="ActId" ColumnName="ActId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

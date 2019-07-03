@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "Goal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IEnumerable<WebApplication4.Models.GoalModel>
+<div class="container-fluid">
+    <div class="row border-left">
+        <div class="col-md-10 offset-md-2 col-12 container-fluid pr-2 border-left">
+            <div class="row" id="content">
+                <div class="col-md-10 p-0 border-left">
+                    <button class="m-0 w-100 h-100 btn btn-primary" data-toggle="modal" data-target="#add_form">Добавить</button>
+                </div>
+                @foreach (WebApplication4.Models.GoalModel a in Model)
+                {
+                    var impNow = 0;
+                    var color = "red";
+                    foreach (WebApplication4.Models.Goal goal in a.Goals)
+                    {
+                        impNow = 0;
+                        <div class="col-md-10 p-0 card border-dark text-center">
+                            <div class="card-header justify-content-center" id="heading-@goal.Id" style="background-color:@goal.Color">
+                                <h5 class="mb-0 justify-content-center">
+                                    <button class="btn btn-link justify-content-center" style="font-size:2rem" data-toggle="collapse" data-target="#collapse-@goal.Id" aria-expanded="true" aria-controls="collapse-@goal.Id">
+                                        <b class="align-self-center" style="color:white">@goal.Name</b>
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapse-@goal.Id" class="collapse" aria-labelledby="heading-@goal.Id">
+                                <div class="card-body container-fluid">
+                                    <div class="row">
+                                        @foreach (WebApplication4.Models.GoalAct1 goalAct in a.GoalActs)
+                                        {
+                                            if (goalAct.Done != 0)
+                                            {
+                                                color = "#928B8B";
+                                            }
+                                            else
+                                            {
+                                                color = goalAct.Color;
+                                            }
+                                            if (goal.Id == goalAct.GoalId)
+                                            {
+                                                <div class="card col-auto mr-3 mb-2 text-xs-center" style="background-color:@color">
+                                                    <div class="card-block">
+                                                        <blockquote class="m-2">
+                                                            <b class="card-text text-white">@goalAct.Name</b>
+                                                        </blockquote>
+                                                    </div>
+                                                </div>
+                                                if (goalAct.Done != 0)
+                                                {
+                                                    impNow += (int)goalAct.Imp;
+                                                }
+                                            }
+                                        }
+                                        @if (impNow == goal.Volume)
+                                        {
+                                            <a role="button" href="~/Home/delGoal?id=@goal.Id" class="mb-2 btn btn-danger col-auto text-center">Убрать </a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer container-fluid p-0">
+                                <div class="progress" style="height:30px">
+                                    <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width:@(impNow*100/goal.Volume)% ;" aria-valuenow="{{@impNow}}" aria-valuemin="0" aria-valuemax="@goal.Volume">@(impNow * 100 / goal.Volume)%</div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bd-example-modal-lg" id="add_form" tabindex="-1" role="dialog" aria-labelledby="add_formLabel" aria-label="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add_formLabel">Выберете действия необходимые для достжения цели</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body modal-lg">
+                    <form id="contactForm" class="container-fluid custom-control custom-checkbox" action="" method="post">
+                        <div class="row">
+                            <input onkeyup="checkParams()" type="text" required id="nameGoal" class="form-control" placeholder="Название цели" />
+                        </div>
+                        <div class="row mb-3">
+                            @foreach (var a in Model)
+                            {
+                                var color = "red";
+                                foreach (WebApplication4.Models.Act b in a.Acts)
+                                {
+                                    foreach (var r in a.Sphere)
+                                    {
+                                        if (r.Id == b.SphereId)
+                                        {
+                                            color = r.Color;
+                                        }
+                                    }
+                                    <div class="col-auto mt-2 ml-2 text-nowrap card" style="background-color:@color">
+                                        <div class="custom-control form-control-lg custom-checkbox" id="boxs">
+                                            <input value="@b.Id" type="checkbox" class="custom-control-input" id="customCheck-@b.Id">
+                                            <label class="custom-control-label" for="customCheck-@b.Id">@b.Name</label>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="row border-top">
+                            <label class="col-1 mt-3" for="#colorPicker">Цвет</label>
+                            <input id="colorPicker" type="color" class="mt-3 form-control col-1" />
+                            <button id="creatGoalBtn" disabled onclick="return addGoal()" class="btn btn-info col-2 offset-8 mt-3">Создать</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

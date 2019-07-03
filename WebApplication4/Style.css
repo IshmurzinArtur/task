@@ -1,0 +1,64 @@
+﻿body {
+}
+
+.sidebar {
+    margin: 0px;
+    padding: 0px;
+    background-color: black;
+}
+
+.small-card {
+    padding: 0px;
+    margin: 15px;
+}
+
+.sidebar {
+    position: fixed;
+    height: 100vh;
+}
+
+card_info {
+}
+
+.btn_modal {
+    left: 50%;
+}
+
+.btn-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 19px;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 16px;
+    background-color: forestgreen;
+    position: page;
+}
+
+.tag {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    width: 65px !important;
+    min-width: 65px !important;
+    max-height: 38px !important;
+}
+
+.card-footer {
+}
+
+.speeddial {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+#ex1Slider .slider-selection {
+    background: #BABABA;
+}
+
+.custom-control-label::before,
+.custom-control-label::after {
+    top: .8rem;
+    width: 1.25rem;
+    height: 1.25rem;
+}

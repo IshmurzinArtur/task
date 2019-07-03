@@ -1,0 +1,268 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@model IEnumerable<WebApplication4.Models.BigModel>
+
+<script src="~/Scripts/jquery-3.4.1.js" type="text/javascript"></script>
+<script src="~/Scripts/bootstrap-slider.min.js"></script>
+<link rel="stylesheet" href="~/Content/bootstrap-slider.min.css" />
+<link rel="stylesheet" href="~/Style.css" />
+<script src="~/Scripts/Script.js"></script>
+<div class="container-fluid p-0">
+    <div class="row border-left mr-0">
+        <div class="col-md-2 mt-2 pl-1 pr-1 col-10 offset-1 offset-md-0">
+            <div class="row">
+                @foreach (var bigModel in Model)
+                {
+                    foreach (var act in bigModel.Act)
+                    {
+                        if (act.Importance > 80 && DateTime.Now.Day < act.Date.Value.Day)
+                        {
+                            <div class="col-md-11 offset-md-1 mb-2 collapse show" id="prompt-dark-@act.Id">
+                                <div class="card bg-dark">
+                                    <button type="button" data-toggle="collapse" data-target="#prompt-dark-@act.Id" class="close align-self-end mr-2" aria-label="close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <blockquote class="blockquote mb-0 p-1 card-body">
+                                        <p class="text-white">Обратите внимание, вам нужно <b>@act.Name</b></p>
+                                    </blockquote>
+                                </div>
+                            </div>
+                        }
+                        if (DateTime.Now.Year == act.Date.Value.Year && DateTime.Now.Month == act.Date.Value.Month)
+                        {
+                            if (DateTime.Now.Day == act.Date.Value.Day)
+                            {
+                                <div class="col-md-11 offset-md-1 mb-2 collapse show" id="prompt-primary-@act.Id">
+                                    <div class="card bg-primary">
+                                        <button type="button" data-toggle="collapse" data-target="#prompt-primary-@act.Id" class="close align-self-end mr-2" aria-label="close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <blockquote class="blockquote mb-0 p-1 card-body">
+                                            <p class="text-white">Сегодня вы должны <b>@act.Name</b></p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            }
+                            if (DateTime.Now.Day > act.Date.Value.Day)
+                            {
+                                <div class="col-md-11 offset-md-1 mb-2 collapse show" id="prompt-danger-@act.Id">
+                                    <div class="card bg-danger">
+                                        <button type="button" data-toggle="collapse" data-target="#prompt-danger-@act.Id" class="close align-self-end mr-2" aria-label="close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <blockquote class="blockquote mb-0 p-1 card-body">
+                                            <p class="text-white">Вы забыли <b>@act.Name</b></p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-md-10 container-fluid pr-2 border-left">
+            <div class="row border-bottom mr-0">
+                <div class="col-11 offset-1 offset-md-0 col-md-3">
+                    <div class="row">
+                        <div class="col-5 p-0 pl-4 pt-2 pb-2">
+                            <button class="btn btn-warning btn_add" style="margin-right:20px;" data-toggle="collapse" data-target="#filter" id="btn_add">Фильтр</button>
+                        </div>
+                        <div class="col-5 p-0 pt-2 pb-2">
+                            <button class="btn btn-primary btn_add" style="margin-right:20px;" data-toggle="modal" data-target="#add_form" id="btn_add">Добавить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form method="get">
+                <div class="row collapse border-bottom mr-0" id="filter" style="height:104px">
+                    <div class="col-md-2 col-10 offset-1 offset-md-0">
+                        <label for="select_sfer">Сфера:</label>
+                        <select class="mr-4 mb-2 mt-1 form-control initialized" name="sphere" id="select-fil">
+                            @foreach (WebApplication4.Models.BigModel bigModel in Model)
+                            {
+                                foreach (WebApplication4.Models.Sphere sphere in bigModel.Sphere)
+                                {
+
+                                    <option value="@sphere.Id">@sphere.Name</option>
+
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-10 offset-1 offset-md-0">
+                        <div class="row">
+                            <label class="col-12">Важность:</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <b>0</b> <input id="ex2" type="text" style="background-color:#BABABA;" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="[0,100]" /> <b>100</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-10 offset-1 offset-md-0">
+                        <div class="row">
+                            <label class="col-12">Срок:</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input id="date-ot" type="date" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pt-2 pt-md-0">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input id="date-do" type="date" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1 col-10 offset-1 offset-md-0">
+                        <div class="row">
+                            <div class="col-7 offset-md-3 align-self-center pt-4">
+                                <button type="submit" class="btn btn-danger">Показать</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+                <div class="row mr-0" id="content">
+                @foreach (WebApplication4.Models.BigModel a in Model)
+                {
+                    var color = "red";
+                    foreach (WebApplication4.Models.Act b in a.Act)
+                    {
+                        foreach (var r in a.Sphere)
+                        {
+                            if (r.Id == b.SphereId)
+                            {
+                                color = r.Color;
+                            }
+                        }
+                        <div class="card-group col-md-3 col-10 offset-1 offset-md-0 p-sm-0 pl-0 pr-0" id='@b.Id'>
+                            <div class="card shadow-lg border-secondary mb-md-3 mb-0 small-card col-md-12 offset-md-2 mr-0 ml-0 ml-md-3" id="card-@b.Id">
+                                <div class="card-header border-secondary align-items-center p-0" style="height:60px; background-color:@color">
+                                    <button style="color:white; text-align:center;" id="name-@b.Id" class="h-100 w-100 btn-link btn text-nowrap text-center" data-toggle="collapse" aria-expanded="false" onclick="changeClass(@b.Id,'card-@b.Id','card-info_@b.Id')" data-target="#card_info-@b.Id"><b>@b.Name</b></button>
+                                </div>
+                                <div class="card-body text-success border-secondary" style="height:100px">
+                                    <p class="card-text card_des" style="color:black" id="des-@b.Id">@b.Description</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-secondary pl-0 pr-0" style="height:60px">
+                                    <div class="btn-toolbar" role="group">
+                                        @if (!b.Tag1.IsEmpty())
+                                        {
+                                            <button type="submit" class="btn tag text-nowrap text-white row pl-0" style="background-color:@color"><b class="col-12 p-0">@b.Tag1</b></button>
+                                        }
+                                        @if (!b.Tag2.IsEmpty())
+                                        {
+                                            <button type="submit" class="btn tag text-nowrap text-white row pl-0" style="background-color:@color"><b class="col-12 p-0">@b.Tag2</b></button>
+                                        }
+                                        @if (!b.Tag3.IsEmpty())
+                                        {
+                                            <button type="submit" class="btn tag text-nowrap text-white row pl-0" style="background-color:@color"><b class="col-12 p-0">@b.Tag3</b></button>
+                                        }
+                                    </div>
+                                </div>
+                            </div><!-- Конец карточки -->
+                            <div class="card shadow-lg border-secondary mb-3 small-card col-md-0 ml-0 collapse mr-0 mt-0 mt-md-3" id="card_info-@b.Id">
+                                <div class="card-header bg-transparent border-secondary p-0">
+                                    <label for="important">Важность</label>
+                                    <input disabled style="width:100%" type="range" min="0" max="100" value="@b.Importance" id="important-@b.Id">
+                                </div>
+                                <div class="card-body text-success border-secondary p-0" style="height:100px">
+                                    <div class="col-md-12 collapse show" id="full_info" aria-expanded="false">
+                                        <div class="row">
+                                            <div class="col form-group">
+                                                <label for="select_sfer">Сфера:</label>
+                                                <select disabled class="mr-4 mb-2 mt-1 form-control initialized" id="select-@b.Id">
+                                                    @foreach (WebApplication4.Models.BigModel bigModel in Model)
+                                                    {
+                                                        foreach (WebApplication4.Models.Sphere sphere in bigModel.Sphere)
+                                                        {
+                                                            if (b.SphereId != sphere.Id)
+                                                            {
+                                                                <option value="@sphere.Id">@sphere.Name</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@sphere.Id" selected>@sphere.Name</option>
+                                                            }
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col form-group">
+                                                <label for="date">Срок:</label>
+                                                <input type="date" disabled class="initialized form-control" id="date-@b.Id" value="@string.Format("{0:yyyy-MM-dd}",b.Date)" name="date" placeholder="Срок" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent border-secondary">
+                                    <button type="button" class="btn btn-info float-left" id="redBtn-@b.Id" onclick="red(@b.Id)">Редактировать</button>
+                                    <button type="button" class="btn btn-danger float-right" onclick="delCard(@b.Id)">Выполнено</button>
+                                </div>
+                            </div><!-- Конец карточки -->
+                        </div>
+                    }
+                }
+                <div class="modal fade" id="add_form" tabindex="-1" role="dialog" aria-labelledby="add_formLabel" aria-label="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="add_formLabel">Новое действие</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="contactForm" action="" method="post">
+                                    <div class="form-group">
+                                        <label for="name">Название дествия:</label>
+                                        <input id="name" class="form-control" name="name" required type="text" placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="message">Описание:</label>
+                                        <textarea id="message" name="message" class="form-control" required rows="4"></textarea>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col">
+                                            <label for="select">Cфера</label>
+                                            <select name="select" class="mdb-select md-form mb-4 form-control" id="select">
+                                                @foreach (WebApplication4.Models.BigModel bigModel in Model)
+                                                {
+                                                    foreach (WebApplication4.Models.Sphere sphere in bigModel.Sphere)
+                                                    {
+                                                        <option value="@sphere.Id">@sphere.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="form-group col">
+                                            <label for="date">Срок:</label>
+                                            <input type="date" class="initialized form-control" id="date" name="date" placeholder="Срок" />
+                                        </div>
+                                    </div>
+                                    <label for="important">Важность</label>
+                                    <div class="form-control-range" style="width:100%">
+                                        <input class="form-control-range" style="width:100%" type="range" min="0" max="100" step="10" id="important" name="important">
+                                    </div>
+                                    <div class="row">
+                                        <input type="text" id="tag" class="col-md-2 form-control ml-3" />
+                                        <button class="ml-3 btn btn-danger" onclick="addTag()" type="button" id="addTagBtn">Добавить тег</button>
+                                    </div>
+                                    <button id="button" data-dismiss="modal" onclick="return addCard()" class="btn btn-success float-right" type="button">Создать</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

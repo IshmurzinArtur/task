@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "Sphere";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IEnumerable<WebApplication4.Models.BigModel>
+
+<script src="~/Scripts/jquery-3.4.1.js" type="text/javascript"></script>
+<script src="~/Scripts/bootstrap-slider.min.js"></script>
+<link rel="stylesheet" href="~/Content/bootstrap-slider.min.css" />
+<link rel="stylesheet" href="~/Style.css" />
+<script src="~/Scripts/Script.js"></script>
+<div class="container-fluid">
+    <div class="row border-left">
+        <div class="col-md-10 offset-md-2 col-12 container-fluid pr-2 border-left">
+            <div class="row" id="content">
+                @foreach (var bigModel in Model)
+                {
+                    foreach (var sphere in bigModel.Sphere)
+                    {
+                        <div class="p-0 card text-center col-md-10 col-12" id="@sphere.Id" style="font-size:17px">
+                            <div class="card-header justify-content-center" style="background-color:@sphere.Color" id="heading-@sphere.Id">
+                                <h5 class="mb-0 justify-content-center">
+                                    <button class="btn btn-link justify-content-center" style="font-size:2rem" data-toggle="collapse" data-target="#collapse-@sphere.Id" aria-expanded="true" aria-controls="collapse-@sphere.Id">
+                                        <b class="align-self-center" style="color:white">@sphere.Name</b>
+                                    </button>
+                                </h5>
+                            </div>
+
+                            <div id="collapse-@sphere.Id" class="collapse" aria-labelledby="heading-@sphere.Id">
+                                <div class="card-body container-fluid">
+                                    <div class="row pb-2 border-bottom">
+                                        <div class="col-md-6 col-12 border-right">
+                                            <textarea id="des-@sphere.Id" disabled class="w-100 h-100 border-0">@sphere.Description</textarea>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label>Цвет</label>
+                                                    <input disabled id="color-@sphere.Id" type="color" value="@sphere.Color" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="row pt-2">
+                                                <div class="col-12 text-left">
+                                                    <label>Количество выполненых действий</label>
+                                                    <b>@sphere.Archiv</b>
+                                                </div>
+                                            </div>
+                                            <div class="row pt-2">
+                                                <div class="col-12 text-left">
+                                                    <label>Количество активных действий</label>
+                                                    <b>@sphere.CountAct</b>
+                                                </div>
+                                            </div>
+                                            <div class="row pt-2">
+                                                <div class="col-12 text-left">
+                                                    <label>Количество срочных действий</label>
+                                                    <b>0</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row pt-2">
+                                        <div class="col-2">
+                                            <button id="redbtn-@sphere.Id" class="btn btn-primary" onclick="redSP(@sphere.Id)">Редактировать</button>
+                                        </div>
+                                        <div class="col-md-2 offset-md-8 col-2 offset-5">
+                                            <button class="btn btn-danger" onclick="delSp(@sphere.Id)">Удалить</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="col-md-10 col-12 p-0">
+                    <button class="m-0 w-100 h-100 btn btn-primary" data-toggle="modal" data-target="#add_form">Добавить</button>
+                </div>
+                <div class="modal fade" id="add_form" tabindex="-1" role="dialog" aria-labelledby="add_formLabel" aria-label="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="add_formLabel">Новая сфера</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="contactForm" action="" method="post">
+                                    <div class="form-group">
+                                        <input id="name" class="form-control" name="name" required type="text" placeholder="Название">
+                                    </div>
+                                    <button id="button" data-dismiss="modal" onclick="return addSp()" class="btn btn-success float-right" type="button">Создать</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
